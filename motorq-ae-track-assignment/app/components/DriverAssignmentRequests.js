@@ -1,6 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 export default function DriverAssignmentRequests() {
 	const [requests, setRequests] = useState([]);
@@ -65,7 +69,7 @@ export default function DriverAssignmentRequests() {
 			// Reject all other pending assignments for this driver
 			await supabase
 				.from("assignment")
-				.update({ status: "rejected" })
+				.update({ status: "claimed" })
 				.eq("driver_id", driverId)
 				.eq("status", "pending")
 				.neq("id", assignmentId);
@@ -75,43 +79,81 @@ export default function DriverAssignmentRequests() {
 	};
 
 	return (
-		<div>
-			<h2>Driver Assignment Requests</h2>
-			{!isLoggedIn ? (
-				<div>
-					<input
-						type="text"
-						placeholder="Driver ID"
-						value={driverId}
-						onChange={(e) => setDriverId(e.target.value)}
-					/>
-					<input
-						type="text"
-						placeholder="Driver Name"
-						value={driverName}
-						onChange={(e) => setDriverName(e.target.value)}
-					/>
-					<button onClick={handleLogin}>Login</button>
-				</div>
-			) : (
-				<div>
-					<h3>Welcome, {driverName}</h3>
-					<h4>Your Pending Assignments:</h4>
-					{requests.map((request) => (
-						<div key={request.id}>
-							<p>Vehicle: {request.vehicle_id}</p>
-							<p>Start: {request.start_time}</p>
-							<p>End: {request.end_time}</p>
-							<button onClick={() => handleResponse(request.id, "accepted")}>
-								Accept
-							</button>
-							<button onClick={() => handleResponse(request.id, "rejected")}>
-								Reject
-							</button>
+		<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+			<Card className="w-full max-w-lg shadow-lg">
+				<CardHeader>
+					<CardTitle className="text-center text-2xl">
+						{!isLoggedIn ? "Driver Login" : `Welcome, ${driverName}`}
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					{!isLoggedIn ? (
+						<div className="space-y-4">
+							<div>
+								<Label htmlFor="driverId" className="block text-sm font-medium text-gray-700">
+									Driver ID
+								</Label>
+								<Input
+									id="driverId"
+									type="text"
+									placeholder="Enter your Driver ID"
+									value={driverId}
+									onChange={(e) => setDriverId(e.target.value)}
+									className="w-full mt-1"
+								/>
+							</div>
+							<div>
+								<Label htmlFor="driverName" className="block text-sm font-medium text-gray-700">
+									Driver Name
+								</Label>
+								<Input
+									id="driverName"
+									type="text"
+									placeholder="Enter your Name"
+									value={driverName}
+									onChange={(e) => setDriverName(e.target.value)}
+									className="w-full mt-1"
+								/>
+							</div>
+							<Button
+								onClick={handleLogin}
+								className="w-full bg-blue-500 hover:bg-blue-600"
+							>
+								Login
+							</Button>
 						</div>
-					))}
-				</div>
-			)}
+					) : (
+						<div className="space-y-6">
+							<h4 className="text-lg font-medium">Your Pending Assignments:</h4>
+							{requests.length > 0 ? (
+								requests.map((request) => (
+									<Card key={request.id} className="bg-white shadow-md p-4">
+										<p className="text-sm text-gray-700">Vehicle: {request.vehicle_id}</p>
+										<p className="text-sm text-gray-700">Start: {request.start_time}</p>
+										<p className="text-sm text-gray-700">End: {request.end_time}</p>
+										<div className="flex space-x-4 mt-4">
+											<Button
+												onClick={() => handleResponse(request.id, "accepted")}
+												className="bg-green-500 hover:bg-green-600"
+											>
+												Accept
+											</Button>
+											<Button
+												onClick={() => handleResponse(request.id, "rejected")}
+												className="bg-red-500 hover:bg-red-600"
+											>
+												Reject
+											</Button>
+										</div>
+									</Card>
+								))
+							) : (
+								<p className="text-sm text-gray-700">No pending assignments.</p>
+							)}
+						</div>
+					)}
+				</CardContent>
+			</Card>
 		</div>
 	);
 }
