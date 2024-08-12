@@ -10,8 +10,8 @@ export default async function Page() {
 
   return (
     <ul>
-      {drivers?.map((driver) => (
-        <li>{driver.Driver_ID}</li>
+      {drivers?.map((driver,index) => (
+        <li key={index}>{driver.Driver_ID}</li>
       ))}
     </ul>
   )
