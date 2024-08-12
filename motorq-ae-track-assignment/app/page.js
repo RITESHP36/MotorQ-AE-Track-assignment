@@ -6,7 +6,7 @@ export default async function Page() {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
 
-  const { data: drivers } = await supabase.from('Driver').select()
+  const { data: drivers } = await supabase.from('driver').select()
 
   return (
     <ul>
