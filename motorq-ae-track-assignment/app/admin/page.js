@@ -10,7 +10,7 @@ import DashboardPage from "../components/Dashboard";
 export default function AdminPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(true); // Change this to true to skip login
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // Change this to true to skip login
     const [error, setError] = useState("");
 
     const handleLogin = () => {
