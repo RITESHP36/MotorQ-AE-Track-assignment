@@ -96,17 +96,16 @@ export default function Overview() {
 						/>
 					</div>
 					<Table>
-						<TableHead>
-							<TableRow>
-								<TableCell>Driver ID</TableCell>
-								<TableCell>Name</TableCell>
-								<TableCell>Email</TableCell>
-								<TableCell>Phone Number</TableCell>
-								<TableCell>Location</TableCell>
-								<TableCell>Work Hours Start</TableCell>
-								<TableCell>Work Hours End</TableCell>
-							</TableRow>
-						</TableHead>
+						<TableRow>
+							<TableHead>Driver ID</TableHead>
+							<TableHead>Name</TableHead>
+							<TableHead>Email</TableHead>
+							<TableHead>Phone Number</TableHead>
+							<TableHead>Location</TableHead>
+							{/* To be implemented in future version */}
+							{/* <TableHead>Work Hours Start</TableHead>
+							<TableHead>Work Hours End</TableHead> */}
+						</TableRow>
 						<TableBody>
 							{(showMoreDrivers ? drivers : drivers.slice(0, 10)).map(
 								(driver) => (
@@ -116,8 +115,9 @@ export default function Overview() {
 										<TableCell>{driver.drivermail}</TableCell>
 										<TableCell>{driver.driverphone}</TableCell>
 										<TableCell>{driver.location}</TableCell>
-										<TableCell>{driver.work_hours_start}</TableCell>
-										<TableCell>{driver.work_hours_end}</TableCell>
+										{/* To be implemented in future version */}
+										{/* <TableCell>{driver.work_hours_start}</TableCell>  
+										<TableCell>{driver.work_hours_end}</TableCell> */}
 									</TableRow>
 								)
 							)}
@@ -157,13 +157,11 @@ export default function Overview() {
 						/>
 					</div>
 					<Table>
-						<TableHead>
-							<TableRow>
-								<TableCell>Vehicle ID</TableCell>
-								<TableCell>Make & Model</TableCell>
-								<TableCell>License Plate</TableCell>
-							</TableRow>
-						</TableHead>
+						<TableRow>
+							<TableHead>Vehicle ID</TableHead>
+							<TableHead>Make & Model</TableHead>
+							<TableHead>License Plate</TableHead>
+						</TableRow>
 						<TableBody>
 							{(showMoreVehicles ? vehicles : vehicles.slice(0, 10)).map(
 								(vehicle) => (

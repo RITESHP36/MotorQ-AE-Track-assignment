@@ -55,15 +55,13 @@ const AssignmentTable = ({ assignments }) => {
 				</CardHeader>
 				<CardContent>
 					<Table className="w-full">
-						<TableHead>
 							<TableRow>
-								<TableCell>Driver</TableCell>
-								<TableCell>Vehicle</TableCell>
-								<TableCell>Start Time</TableCell>
-								<TableCell>End Time</TableCell>
-								<TableCell>Status</TableCell>
+								<TableHead>Driver</TableHead>
+								<TableHead>Vehicle</TableHead>
+								<TableHead>Start Time</TableHead>
+								<TableHead>End Time</TableHead>
+								<TableHead>Status</TableHead>
 							</TableRow>
-						</TableHead>
 						<TableBody>
 							{assignments.map((assignment, index) => (
 								<TableRow key={index}>
