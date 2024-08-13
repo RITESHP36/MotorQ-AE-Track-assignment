@@ -43,13 +43,13 @@ export default function DashboardPage() {
 		const { count: activeAssignmentsCount } = await supabase
 			.from("assignment")
 			.select("*", { count: "exact", head: true })
-			.eq("status", "accepted");
+			.neq("status", "completed");
 
 		// Fetch completed assignments
 		const { count: completedAssignmentsCount } = await supabase
 			.from("assignment")
 			.select("*", { count: "exact", head: true })
-			.eq("status", "completed");
+			.eq("status", "accepted");
 
 		setMetrics({
 			totalDrivers: driversCount,
@@ -133,7 +133,7 @@ export default function DashboardPage() {
 								</Card>
 							</div>
 						</TabsContent>
-						<TabsContent value="driver" className="flex flex-wrap w-full">
+						<TabsContent value="driver" >
 							<DriverForm />
 						</TabsContent>
 						<TabsContent value="assign">

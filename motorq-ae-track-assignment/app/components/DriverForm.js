@@ -32,7 +32,7 @@ export default function DriverForm() {
 	};
 
 	return (
-		<Card className="max-w-md mx-auto mt-10 p-6 shadow-lg">
+		<Card className="w-full mx-auto mt-10 p-6 shadow-lg">
 			<CardHeader>
 				<CardTitle>Add New Driver</CardTitle>
 			</CardHeader>

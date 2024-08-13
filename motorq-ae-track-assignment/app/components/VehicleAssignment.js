@@ -169,9 +169,11 @@ export default function VehicleAssignment() {
 			return;
 		}
 
+		let assignmentIdUUID = uuidv4();
+
 		// Create assignments for each selected driver
 		const assignments = selectedDrivers.map((driver) => ({
-			assignmentid: uuidv4(),
+			assignmentid: assignmentIdUUID,
 			vehicle_id: selectedVehicle.value,
 			driver_id: driver.value,
 			start_time: startTimeUTC,
