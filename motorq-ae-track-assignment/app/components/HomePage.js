@@ -16,6 +16,7 @@ const HomePage = () => {
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="text-2xl">Welcome to Our Fleet Management System</CardTitle>
+            <CardTitle className="text-2xl">MOTORQ-AE-TRACK-ASSIGNMENT</CardTitle>
             <CardDescription>
               Efficiently manage your fleet of vehicles and drivers with our comprehensive solution.
             </CardDescription>
@@ -63,7 +64,7 @@ const HomePage = () => {
 
       <footer className="border-t">
         <div className="container mx-auto py-4 text-center text-muted-foreground">
-          &copy; 2024 Fleet Management System. All rights reserved.
+          &copy; Ritesh Pradhan | 22BAI1055 | ritesh.pradhan2022@vitstudent.ac.in
         </div>
       </footer>
     </div>
