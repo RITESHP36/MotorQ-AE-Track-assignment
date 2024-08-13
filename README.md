@@ -1,7 +1,8 @@
 
 # Fleet Management Web App
 ## Ritesh Pradhan | 22BAI1055 | VIT Chennai | ritesh.pradhan2022@vitstudent.ac.in
-- Demo Link : [https://drive.google.com/file/d/1-sG4XLhHScZ1_MGrbuefWketvdS6CScb/view?usp=sharing](https://drive.google.com/drive/folders/14D-2AA2narydVHl5QGtWeI4vhrP6Tp_k?usp=sharing)
+- Deployed Website Link : https://motor-q-ae-track-assignment.vercel.app/
+- Demo Video Link : [https://drive.google.com/file/d/1-sG4XLhHScZ1_MGrbuefWketvdS6CScb/view?usp=sharing](https://drive.google.com/drive/folders/14D-2AA2narydVHl5QGtWeI4vhrP6Tp_k?usp=sharing)
 
 This project is a Fleet Management Web Application built using Next.js. The application helps businesses manage their fleets of vehicles, set of drivers , schedule assignment for drivers etc.
 ## Features
