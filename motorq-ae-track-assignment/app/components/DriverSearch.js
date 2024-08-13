@@ -85,7 +85,7 @@ export default function DriverSearch() {
 
 			{searchResults.length === 0 && searchLocation && (
 				<div className="text-center mt-6 text-gray-600">
-					No drivers found for the location "{searchLocation}".
+					No drivers found for the location &quot;{searchLocation}&quot;.
 				</div>
 			)}
 		</div>

@@ -1,104 +1,147 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { createClient } from '@/utils/supabase/client'
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card'
+import { useState, useEffect } from "react";
+import { createClient } from "@/utils/supabase/client";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DriverForm from "./DriverForm";
+import VehicleAssignment from "./VehicleAssignment";
+import Overview from "./Overview";
 
-// Typography components
-const TypographyH1 = ({ children, className }) => (
-  <h1 className={`scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ${className}`}>
-    {children}
-  </h1>
-)
+export default function DashboardPage() {
+	const [metrics, setMetrics] = useState({
+		totalDrivers: 0,
+		totalVehicles: 0,
+		activeAssignments: 0,
+		completedAssignments: 0,
+	});
 
-const TypographyP = ({ children, className }) => (
-  <p className={`leading-7 mt-6 ${className}`}>
-    {children}
-  </p>
-)
+	useEffect(() => {
+		fetchMetrics();
+	}, []);
 
-export default function Dashboard() {
-  const [metrics, setMetrics] = useState({
-    totalDrivers: 0,
-    totalVehicles: 0,
-    activeAssignments: 0,
-    completedAssignments: 0,
-  })
+	const fetchMetrics = async () => {
+		const supabase = createClient();
 
-  useEffect(() => {
-    fetchMetrics()
-  }, [])
+		// Fetch total drivers
+		const { count: driversCount } = await supabase
+			.from("driver")
+			.select("*", { count: "exact", head: true });
 
-  const fetchMetrics = async () => {
-    const supabase = createClient()
+		// Fetch total vehicles
+		const { count: vehiclesCount } = await supabase
+			.from("vehicle")
+			.select("*", { count: "exact", head: true });
 
-    // Fetch total drivers
-    const { count: driversCount } = await supabase
-      .from('driver')
-      .select('*', { count: 'exact', head: true })
+		// Fetch active assignments
+		const { count: activeAssignmentsCount } = await supabase
+			.from("assignment")
+			.select("*", { count: "exact", head: true })
+			.eq("status", "accepted");
 
-    // Fetch total vehicles
-    const { count: vehiclesCount } = await supabase
-      .from('vehicle')
-      .select('*', { count: 'exact', head: true })
+		// Fetch completed assignments
+		const { count: completedAssignmentsCount } = await supabase
+			.from("assignment")
+			.select("*", { count: "exact", head: true })
+			.eq("status", "completed");
 
-    // Fetch active assignments
-    const { count: activeAssignmentsCount } = await supabase
-      .from('assignment')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'accepted')
-
-    // Fetch completed assignments
-    const { count: completedAssignmentsCount } = await supabase
-      .from('assignment')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'completed')
-
-    setMetrics({
-      totalDrivers: driversCount,
-      totalVehicles: vehiclesCount,
-      activeAssignments: activeAssignmentsCount,
-      completedAssignments: completedAssignmentsCount,
-    })
-  }
-
-  return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <TypographyH1 className="text-gray-800 mb-6">Fleet Dashboard</TypographyH1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="shadow-md bg-white">
-          <CardHeader>
-            <CardTitle>Total Drivers</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <TypographyP className="text-2xl font-semibold">{metrics.totalDrivers}</TypographyP>
-          </CardContent>
-        </Card>
-        <Card className="shadow-md bg-white">
-          <CardHeader>
-            <CardTitle>Total Vehicles</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <TypographyP className="text-2xl font-semibold">{metrics.totalVehicles}</TypographyP>
-          </CardContent>
-        </Card>
-        <Card className="shadow-md bg-white">
-          <CardHeader>
-            <CardTitle>Active Assignments</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <TypographyP className="text-2xl font-semibold">{metrics.activeAssignments}</TypographyP>
-          </CardContent>
-        </Card>
-        <Card className="shadow-md bg-white">
-          <CardHeader>
-            <CardTitle>Completed Assignments</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <TypographyP className="text-2xl font-semibold">{metrics.completedAssignments}</TypographyP>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  )
+		setMetrics({
+			totalDrivers: driversCount,
+			totalVehicles: vehiclesCount,
+			activeAssignments: activeAssignmentsCount,
+			completedAssignments: completedAssignmentsCount,
+		});
+	};
+	return (
+		<>
+			<div className="hidden flex-col md:flex">
+				<div className="flex-1 space-y-4 p-8 pt-6">
+					<div className="flex items-center justify-between space-y-2">
+						<h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+					</div>
+					<Tabs defaultValue="overview" className="space-y-4">
+						<TabsList>
+							<TabsTrigger value="overview">Overview</TabsTrigger>
+							<TabsTrigger value="driver">Driver</TabsTrigger>
+							<TabsTrigger value="assign">Assign</TabsTrigger>
+						</TabsList>
+						<TabsContent value="overview" className="space-y-4">
+							<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+								<Card>
+									<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+										<CardTitle className="text-sm font-medium">
+											Total Drivers
+										</CardTitle>
+									</CardHeader>
+									<CardContent>
+										<div className="text-2xl font-bold">
+											{metrics.totalDrivers}
+										</div>
+									</CardContent>
+								</Card>
+								<Card>
+									<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+										<CardTitle className="text-sm font-medium">
+											Vehicles
+										</CardTitle>
+									</CardHeader>
+									<CardContent>
+										<div className="text-2xl font-bold">
+											{metrics.totalVehicles}
+										</div>
+									</CardContent>
+								</Card>
+								<Card>
+									<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+										<CardTitle className="text-sm font-medium">
+											Active Assignments
+										</CardTitle>
+									</CardHeader>
+									<CardContent>
+										<div className="text-2xl font-bold">
+											{metrics.activeAssignments}
+										</div>
+									</CardContent>
+								</Card>
+								<Card>
+									<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+										<CardTitle className="text-sm font-medium">
+											Active Now
+										</CardTitle>
+									</CardHeader>
+									<CardContent>
+										<div className="text-2xl font-bold">
+											{metrics.completedAssignments}
+										</div>
+									</CardContent>
+								</Card>
+							</div>
+							<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+								<Card className="col-span-7">
+									<CardHeader>
+										<CardTitle>Overview</CardTitle>
+									</CardHeader>
+									<CardContent className="pl-2">
+										<Overview />
+									</CardContent>
+								</Card>
+							</div>
+						</TabsContent>
+						<TabsContent value="driver" className="flex flex-wrap w-full">
+							<DriverForm />
+						</TabsContent>
+						<TabsContent value="assign">
+							<VehicleAssignment />
+						</TabsContent>
+					</Tabs>
+				</div>
+			</div>
+		</>
+	);
 }

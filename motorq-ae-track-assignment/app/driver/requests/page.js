@@ -1,10 +1,16 @@
-import DriverAssignmentRequests from '../../components/DriverAssignmentRequests'
+import DriverDashboard from "../../components/DriverDashboard";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function DriverRequestsPage() {
-  return (
-    <div>
-      <h1>Driver Assignment Requests</h1>
-      <DriverAssignmentRequests />
-    </div>
-  )
+	return (
+	<div className="bg-gray-100">
+			<Link href="/" className="m-8">
+				<Button className="mb-4" variant="default">
+					Back to Home
+				</Button>
+			</Link>
+			<DriverDashboard />
+		</div>
+	);
 }
